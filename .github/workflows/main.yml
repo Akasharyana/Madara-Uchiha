@@ -19,7 +19,7 @@ jobs:
       - name: Build Docker Image
         run: |
           echo "${{ secrets.DOCKER_PASSWORD_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker build . -t akash
+          docker build . -t uchiha
 
       - name: Install Docker Scout
         run: |
@@ -29,12 +29,12 @@ jobs:
 
       - name: Run Docker Scout CVE Scan
         run: |
-          docker scout cves akash > image-cves-scan.csv
+          docker scout cves uchiha > image-cves-scan.csv
           cat image-cves-scan.csv
          
       - name: Checking Image Quickview
         run: |
-          docker scout quickview akash > image-scan-quickview.csv
+          docker scout quickview uchiha > image-scan-quickview.csv
           cat image-scan-quickview.csv
 
       - name: Send CVE Report via Email
@@ -49,9 +49,9 @@ jobs:
             Wherever There Is Light — There Are Always Shadows.
                            (MADARA_UCHIHA),
 
-            Please find attached the CVE report, Trivy scan and overview of the Docker image.
+            Please find attached the CVE report and overview of the Docker image.
             Warm regards,
             Sudha Yadav
           to: sudhajobs0107@gmail.com
           from: '${{ secrets.EMAIL_USERNAME }}'
-          attachments: image-cves-scan.csv,image-scan-quickview.csv,image-trivy-scan.csv
+          attachments: image-cves-scan.csv,image-scan-quickview.csv
